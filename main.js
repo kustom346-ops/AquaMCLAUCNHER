@@ -244,13 +244,11 @@ ipcMain.handle('launcher:checkUpdate', async () => {
     try {
         const result = await new Promise((resolve, reject) => {
             https.get(GITHUB_API, {
-                headers: { 'User-Agent': 'AquaMC-Launcher', 'Accept': 'application/vnd.github.v3+json' }
+                headers: { 'User-Agent': 'AquaMC-Launcher' }
             }, (res) => {
                 let data = '';
                 res.on('data', chunk => data += chunk);
-                res.on('end', () => {
-                    try { resolve(JSON.parse(data)); } catch(e) { reject(e); }
-                });
+                res.on('end', () => resolve(JSON.parse(data)));
             }).on('error', reject);
         });
 
@@ -258,14 +256,24 @@ ipcMain.handle('launcher:checkUpdate', async () => {
         const currentVersion = app.getVersion();
 
         if (latestVersion !== currentVersion) {
-            return {
-                updateAvailable: true,
-                currentVersion: currentVersion,
-                newVersion: latestVersion,
-                changes: result.body ? result.body.split('\n').filter(l => l.trim()) : [],
-                downloadUrl: result.assets?.[0]?.browser_download_url || result.zipball_url
-            };
+            const downloadUrl = result.assets[0].browser_download_url;
+            
+            // Автоскачивание
+            sendToWindow('launcher:downloadProgress', { progress: 0, status: 'Скачиваем обновление...' });
+            
+            const tempPath = path.join(app.getPath('temp'), 'AquaMC-Update.exe');
+            await downloadFile(downloadUrl, tempPath);
+            
+            sendToWindow('launcher:downloadProgress', { progress: 100, status: 'Установка...' });
+            
+            // Запускаем установщик и выходим
+            exec(`"${tempPath}" /S`, () => {
+                app.quit();
+            });
+            
+            return { updateAvailable: true, autoUpdated: true };
         }
+        
         return { updateAvailable: false };
     } catch(e) {
         return { updateAvailable: false };

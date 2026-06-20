@@ -1,6 +1,6 @@
 {
   "name": "aquamc-launcher",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "description": "AquaMC Launcher - Immerse in the void",
   "main": "main.js",
   "scripts": {

@@ -2,7 +2,7 @@
     <div class="welcome-section">
         <div class="welcome-left">
             <h1 class="welcome-title">С возвращением, <span class="welcome-name">VoidWalker</span></h1>
-            <p class="welcome-sub">AquaMC · Сезон: Восстановление · Лаунчер v2.4.1</p>
+            <p class="welcome-sub">AquaMC · Сезон: Восстановление · Лаунчер <span id="launcherVersion">v2.4.1</span></p>
         </div>
         <div class="welcome-right">
             <div class="server-status-badge offline">
@@ -86,6 +86,12 @@
 
 <script>
 (function() {
+    // Версия лаунчера
+    window.electronAPI.getAppVersion().then(function(ver) {
+        document.getElementById('launcherVersion').textContent = 'v' + ver;
+    }).catch(function() {});
+
+    // Последний запуск
     var lastLaunch = JSON.parse(localStorage.getItem('aquamc-last-launch') || 'null');
     if (lastLaunch) {
         document.getElementById('lastDate').textContent = lastLaunch.date;
@@ -100,6 +106,7 @@
         time: now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
     }));
 
+    // Новости
     window.electronAPI.getNews().then(function(news) {
         if (news && news.length > 0) {
             document.getElementById('miniNewsList').innerHTML = '<div class="mini-news-item"><div class="mini-news-tag update">UPDATE</div><div class="mini-news-content"><span class="mini-news-title">' + news[0].title + '</span><span class="mini-news-date">' + news[0].date + '</span></div></div>';
@@ -110,11 +117,16 @@
     setTimeout(function() {
         window.electronAPI.checkUpdate().then(function(update) {
             if (update && update.updateAvailable) {
+                // Показываем в интерфейсе
+                var sub = document.querySelector('.welcome-sub');
+                if (sub) {
+                    sub.innerHTML = sub.innerHTML + ' | <span style="color:#4ade80;">Обновление v' + update.newVersion + '</span>';
+                }
                 if (typeof showToast === 'function') {
-                    showToast('info', 'Обновление', 'Версия ' + update.newVersion + ' доступна!', 8000);
+                    showToast('info', 'Обновление', 'Версия ' + update.newVersion + ' доступна! Скачайте на GitHub.', 10000);
                 }
             }
         }).catch(function() {});
-    }, 5000);
+    }, 3000);
 })();
 </script>
