@@ -1,0 +1,120 @@
+<div class="page page-home">
+    <div class="welcome-section">
+        <div class="welcome-left">
+            <h1 class="welcome-title">С возвращением, <span class="welcome-name">VoidWalker</span></h1>
+            <p class="welcome-sub">AquaMC · Сезон: Восстановление · Лаунчер v2.4.1</p>
+        </div>
+        <div class="welcome-right">
+            <div class="server-status-badge offline">
+                <span class="status-dot"></span>
+                <span>Сервер недоступен</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-grid">
+        <div class="home-banner offline-banner">
+            <div class="banner-overlay"></div>
+            <div class="banner-content">
+                <div class="banner-tag">🔧 СЕЗОН: ВОССТАНОВЛЕНИЕ</div>
+                <h2 class="banner-title">Сервер временно недоступен</h2>
+                <p class="banner-text">Проводятся технические работы. Совсем скоро — запуск с чистого листа.</p>
+                <button class="banner-btn" disabled><i class="fa-solid fa-lock"></i> СЕРВЕР НЕДОСТУПЕН</button>
+            </div>
+            <div class="banner-visual"><i class="fa-solid fa-shield-halved banner-icon"></i></div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card offline-card">
+                <div class="stat-icon-wrapper"><i class="fa-solid fa-users stat-icon"></i></div>
+                <div class="stat-info"><span class="stat-number dimmed">0</span><span class="stat-desc">Онлайн</span></div>
+                <div class="stat-spark"><span class="spark-offline">Оффлайн</span></div>
+            </div>
+            <div class="stat-card offline-card">
+                <div class="stat-icon-wrapper"><i class="fa-solid fa-gamepad stat-icon"></i></div>
+                <div class="stat-info"><span class="stat-number dimmed">—</span><span class="stat-desc">Режимы</span></div>
+                <div class="stat-spark"><span class="spark-offline">Н/Д</span></div>
+            </div>
+            <div class="stat-card offline-card">
+                <div class="stat-icon-wrapper"><i class="fa-solid fa-clock stat-icon"></i></div>
+                <div class="stat-info"><span class="stat-number dimmed">—</span><span class="stat-desc">Аптайм</span></div>
+                <div class="stat-spark"><span class="spark-offline">Н/Д</span></div>
+            </div>
+            <div class="stat-card offline-card">
+                <div class="stat-icon-wrapper"><i class="fa-solid fa-trophy stat-icon"></i></div>
+                <div class="stat-info"><span class="stat-number dimmed">—</span><span class="stat-desc">В СНГ</span></div>
+                <div class="stat-spark"><span class="spark-offline">Н/Д</span></div>
+            </div>
+        </div>
+
+        <div class="home-two-col">
+            <div class="home-panel">
+                <div class="panel-header"><h3><i class="fa-solid fa-clock-rotate-left"></i> Последний запуск</h3></div>
+                <div class="last-launch-container" id="lastLaunchContainer">
+                    <div class="last-launch-item">
+                        <div class="ll-left">
+                            <div class="ll-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div class="ll-info">
+                                <span class="ll-date" id="lastDate">—</span>
+                                <span class="ll-time" id="lastTime">—</span>
+                            </div>
+                        </div>
+                        <div class="ll-right"><span class="ll-label" id="lastLabel">Нет запусков</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-panel">
+                <div class="panel-header">
+                    <h3><i class="fa-solid fa-newspaper"></i> Последние новости</h3>
+                    <button class="panel-link" onclick="document.querySelector('[data-page=news]').click()">Все <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <div class="mini-news-list" id="miniNewsList"></div>
+            </div>
+        </div>
+
+        <div class="home-panel home-panel-full">
+            <div class="panel-header"><h3><i class="fa-solid fa-user-astronaut"></i> Топ игроков</h3></div>
+            <div class="top-players-empty">
+                <i class="fa-solid fa-user-slash empty-icon"></i>
+                <p class="empty-title">Нет данных</p>
+                <p class="empty-desc">Список появится после запуска сервера</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var lastLaunch = JSON.parse(localStorage.getItem('aquamc-last-launch') || 'null');
+    if (lastLaunch) {
+        document.getElementById('lastDate').textContent = lastLaunch.date;
+        document.getElementById('lastTime').textContent = lastLaunch.time;
+        document.getElementById('lastLabel').textContent = 'Запущен';
+        document.getElementById('lastLabel').style.color = '#4ade80';
+    }
+
+    var now = new Date();
+    localStorage.setItem('aquamc-last-launch', JSON.stringify({
+        date: now.toLocaleDateString('ru-RU'),
+        time: now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+    }));
+
+    window.electronAPI.getNews().then(function(news) {
+        if (news && news.length > 0) {
+            document.getElementById('miniNewsList').innerHTML = '<div class="mini-news-item"><div class="mini-news-tag update">UPDATE</div><div class="mini-news-content"><span class="mini-news-title">' + news[0].title + '</span><span class="mini-news-date">' + news[0].date + '</span></div></div>';
+        }
+    }).catch(function() {});
+
+    // Проверка обновлений
+    setTimeout(function() {
+        window.electronAPI.checkUpdate().then(function(update) {
+            if (update && update.updateAvailable) {
+                if (typeof showToast === 'function') {
+                    showToast('info', 'Обновление', 'Версия ' + update.newVersion + ' доступна!', 8000);
+                }
+            }
+        }).catch(function() {});
+    }, 5000);
+})();
+</script>

@@ -1,0 +1,344 @@
+/* ============ СБРОС И ПЕРЕМЕННЫЕ ============ */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #06020c;
+    --bg-surface: #0b0614;
+    --bg-elevated: #110a1c;
+    --sidebar-bg: #080310;
+    --sidebar-width: 260px;
+    --accent: #a855f7;
+    --accent-dark: #7c3aed;
+    --accent-light: #c084fc;
+    --accent-glow: rgba(168, 85, 247, 0.6);
+    --text: #e8e4f0;
+    --text-dim: #8a80a8;
+    --text-muted: #5a5478;
+    --panel: #0f0818;
+    --panel-hover: #150d21;
+    --border: rgba(120, 40, 200, 0.2);
+    --border-strong: rgba(120, 40, 200, 0.35);
+    --success: #22c55e;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --titlebar-height: 44px;
+    --playbar-height: 72px;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+}
+
+/* ============ ТЕМЫ ============ */
+
+/* Фиолетовая (дефолт) */
+[data-theme="purple-dark"] {
+    --bg: #06020c;
+    --bg-surface: #0b0614;
+    --bg-elevated: #110a1c;
+    --sidebar-bg: #080310;
+    --accent: #a855f7;
+    --accent-dark: #7c3aed;
+    --accent-light: #c084fc;
+    --accent-glow: rgba(168, 85, 247, 0.6);
+    --text: #e8e4f0;
+    --text-dim: #8a80a8;
+    --text-muted: #5a5478;
+    --panel: #0f0818;
+    --panel-hover: #150d21;
+    --border: rgba(120, 40, 200, 0.2);
+    --border-strong: rgba(120, 40, 200, 0.35);
+}
+
+/* Чисто чёрная */
+[data-theme="pure-black"] {
+    --bg: #000000;
+    --bg-surface: #050505;
+    --bg-elevated: #0a0a0a;
+    --sidebar-bg: #020202;
+    --accent: #a855f7;
+    --accent-dark: #7c3aed;
+    --accent-light: #c084fc;
+    --accent-glow: rgba(168, 85, 247, 0.6);
+    --text: #e0e0e0;
+    --text-dim: #888888;
+    --text-muted: #555555;
+    --panel: #080808;
+    --panel-hover: #0f0f0f;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.15);
+}
+
+/* Полуночно-синяя */
+[data-theme="midnight-blue"] {
+    --bg: #010617;
+    --bg-surface: #060f28;
+    --bg-elevated: #0a1633;
+    --sidebar-bg: #020a1f;
+    --accent: #3b82f6;
+    --accent-dark: #2563eb;
+    --accent-light: #60a5fa;
+    --accent-glow: rgba(59, 130, 246, 0.6);
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-muted: #64748b;
+    --panel: #081025;
+    --panel-hover: #0d1835;
+    --border: rgba(59, 130, 246, 0.2);
+    --border-strong: rgba(59, 130, 246, 0.35);
+}
+
+/* Тёмно-красная */
+[data-theme="dark-red"] {
+    --bg: #0c0202;
+    --bg-surface: #140606;
+    --bg-elevated: #1c0a0a;
+    --sidebar-bg: #0a0303;
+    --accent: #ef4444;
+    --accent-dark: #dc2626;
+    --accent-light: #f87171;
+    --accent-glow: rgba(239, 68, 68, 0.6);
+    --text: #f0e8e8;
+    --text-dim: #a88080;
+    --text-muted: #785050;
+    --panel: #180808;
+    --panel-hover: #210d0d;
+    --border: rgba(239, 68, 68, 0.2);
+    --border-strong: rgba(239, 68, 68, 0.35);
+}
+
+/* ============ СБРОС ============ */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    border-radius: 0;
+    border: none;
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* ============ ГЛАВНЫЙ КОНТЕЙНЕР ============ */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* ============ MAIN AREA ============ */
+.main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+    transition: background 0.5s ease;
+}
+
+/* ============ КОНТЕНТ ============ */
+.content-area {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 28px 32px;
+    position: relative;
+    z-index: 5;
+}
+
+.content-area::-webkit-scrollbar {
+    width: 4px;
+}
+
+.content-area::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.content-area::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 10px;
+}
+
+.content-area::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* ============ ТАЙТЛБАР ============ */
+.titlebar {
+    height: var(--titlebar-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.5s ease, border-color 0.5s ease;
+}
+
+.titlebar-drag {
+    flex: 1;
+    height: 100%;
+    -webkit-app-region: drag;
+    app-region: drag;
+}
+
+.titlebar-controls {
+    display: flex;
+    height: 100%;
+    -webkit-app-region: no-drag;
+    app-region: no-drag;
+}
+
+.titlebar-btn {
+    width: 46px;
+    height: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 13px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+}
+
+.titlebar-btn:hover {
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    color: var(--accent-light);
+}
+
+.titlebar-btn-close:hover {
+    background: rgba(239, 68, 68, 0.6);
+    color: #fff;
+}
+
+/* ============ PLAY BAR ============ */
+.play-bar {
+    height: var(--playbar-height);
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 20px;
+    z-index: 100;
+    transition: background 0.5s ease, border-color 0.5s ease;
+}
+
+.play-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.selected-version {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text);
+}
+
+.selected-version:hover {
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+.allocated-ram {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+.play-bar-center {
+    flex: 1;
+}
+
+.mini-progress {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 300px;
+}
+
+.mini-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+    border-radius: 10px;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.play-bar-right {
+    display: flex;
+    align-items: center;
+}
+
+.play-btn-main {
+    padding: 12px 32px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: var(--transition), background 0.5s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    outline: none;
+    box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.play-btn-main:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px var(--accent-glow), 0 0 70px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.play-btn-main:active {
+    transform: scale(0.95);
+    transition: 0.1s;
+}
+
+.play-btn-main.pulsing {
+    animation: btnPulse 2s ease-in-out infinite;
+}
+
+.play-btn-main:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+@keyframes btnPulse {
+    0%, 100% { box-shadow: 0 0 30px var(--accent-glow); }
+    50% { box-shadow: 0 0 55px var(--accent-glow), 0 0 80px color-mix(in srgb, var(--accent) 50%, transparent); }
+}

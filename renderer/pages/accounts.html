@@ -1,0 +1,106 @@
+<div class="page">
+    <h1 class="page-title">Аккаунты</h1>
+    <p class="page-subtitle">Управление аккаунтами Minecraft</p>
+    
+    <div class="accounts-grid" id="accountsGrid"></div>
+    
+    <button class="add-account-btn" onclick="window.showAuthModal()">
+        <i class="fa-solid fa-plus"></i> Добавить аккаунт
+    </button>
+
+    <div class="skin-viewer-section">
+        <div class="settings-section-title">
+            <i class="fa-solid fa-shirt"></i> Просмотр скинов и плащей
+        </div>
+        <div class="skin-viewer">
+            <div class="skin-preview-3d" id="skinPreview3D">
+                <i class="fa-solid fa-user skin-preview-placeholder"></i>
+            </div>
+            <div class="skin-controls">
+                <div class="skin-type-selector">
+                    <button class="skin-type-btn active" data-type="skin">Скин</button>
+                    <button class="skin-type-btn" data-type="cape">Плащ</button>
+                </div>
+                <div class="skin-control-group">
+                    <label class="skin-control-label">Никнейм или URL скина</label>
+                    <div class="skin-input-row">
+                        <input type="text" class="skin-input" id="skinUrlInput" placeholder="VoidWalker" value="VoidWalker">
+                        <button class="skin-btn" id="loadSkinBtn">
+                            <i class="fa-solid fa-magnifying-glass"></i> Загрузить
+                        </button>
+                    </div>
+                </div>
+                <div class="skin-control-group">
+                    <label class="skin-control-label">Загрузить свой скин</label>
+                    <button class="skin-btn upload" id="uploadSkinBtn">
+                        <i class="fa-solid fa-upload"></i> Выбрать файл
+                    </button>
+                </div>
+                <button class="skin-btn" id="resetSkinBtn" style="align-self: flex-start;">
+                    <i class="fa-solid fa-rotate-left"></i> Сбросить
+                </button>
+                <div class="cape-preview" id="capePreview">
+                    <i class="fa-solid fa-cape" style="margin-right: 6px;"></i> Плащ не выбран
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var accounts = [
+        { id: 1, username: 'VoidWalker', uuid: 'a1b2c3...', type: 'premium', active: true },
+        { id: 2, username: 'AquaPlayer', uuid: 'd4e5f6...', type: 'cracked', active: false }
+    ];
+
+    var grid = document.getElementById('accountsGrid');
+    if (grid) {
+        grid.innerHTML = '';
+        accounts.forEach(function(acc) {
+            var card = document.createElement('div');
+            card.className = 'account-card' + (acc.active ? ' active' : '');
+            card.setAttribute('data-username', acc.username);
+            card.innerHTML = 
+                '<img class="account-avatar" src="https://mc-heads.net/avatar/' + acc.username + '/64" alt="' + acc.username + '">' +
+                '<div class="account-info">' +
+                    '<span class="account-username">' + acc.username + '</span>' +
+                    '<span class="account-uuid">' + acc.uuid + '</span>' +
+                    '<span class="account-type ' + acc.type + '">' + acc.type.toUpperCase() + '</span>' +
+                '</div>' +
+                (acc.active ? '<div class="account-badge">ACTIVE</div>' : '');
+            
+            card.addEventListener('click', function() {
+                var username = this.getAttribute('data-username');
+                document.getElementById('sidebarUsername').textContent = username;
+                document.getElementById('sidebarSkin').src = 'https://mc-heads.net/avatar/' + username + '/64';
+                
+                grid.querySelectorAll('.account-card').forEach(function(c) {
+                    c.classList.remove('active');
+                    var b = c.querySelector('.account-badge');
+                    if (b) b.remove();
+                });
+                this.classList.add('active');
+                var badge = document.createElement('div');
+                badge.className = 'account-badge';
+                badge.textContent = 'ACTIVE';
+                this.appendChild(badge);
+            });
+            
+            grid.appendChild(card);
+        });
+    }
+
+    var skinPreview = document.getElementById('skinPreview3D');
+    if (skinPreview) {
+        skinPreview.innerHTML = '<div style="text-align:center;"><img src="https://visage.surgeplay.com/full/400/VoidWalker" style="width:120px; image-rendering:pixelated;" id="skinPreviewImg"><div style="margin-top:8px; font-size:11px; color:var(--text-dim);">VoidWalker</div></div>';
+    }
+
+    document.getElementById('loadSkinBtn').addEventListener('click', function() {
+        var name = document.getElementById('skinUrlInput').value.trim();
+        if (name) {
+            document.getElementById('skinPreviewImg').src = 'https://visage.surgeplay.com/full/400/' + name;
+        }
+    });
+})();
+</script>

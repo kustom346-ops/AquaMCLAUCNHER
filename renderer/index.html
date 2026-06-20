@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaMC Launcher</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/particles.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/console.css">
+    <link rel="stylesheet" href="css/skin-viewer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Фон с частицами -->
+    <canvas id="particles-bg"></canvas>
+
+    <!-- Главный контейнер -->
+    <div class="app-container">
+        
+        <!-- ЛЕВЫЙ САЙДБАР -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fa-solid fa-droplet logo-drip"></i>
+                    <div class="logo-text-group">
+                        <span class="sidebar-aqua">Aqua</span><span class="sidebar-mc">MC</span>
+                    </div>
+                </div>
+                <div class="sidebar-version">v2.4.1</div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-page="home">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Home</span>
+                </button>
+                <button class="nav-btn" data-page="news">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>News</span>
+                </button>
+                <button class="nav-btn" data-page="versions">
+                    <i class="fa-solid fa-cubes"></i>
+                    <span>Versions</span>
+                </button>
+                <button class="nav-btn" data-page="accounts">
+                    <i class="fa-solid fa-user-group"></i>
+                    <span>Accounts <span class="beta-badge">BETA</span></span>
+                </button>
+                <button class="nav-btn" data-page="console">
+                    <i class="fa-solid fa-terminal"></i>
+                    <span>Console</span>
+                </button>
+                <button class="nav-btn" data-page="settings">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user" id="sidebarUser">
+                    <div class="user-avatar">
+                        <img src="https://mc-heads.net/avatar/VoidWalker/64" alt="Skin" id="sidebarSkin">
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebarUsername">VoidWalker</span>
+                        <span class="user-type">Premium</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ПРАВАЯ ЧАСТЬ -->
+        <div class="main-area">
+            <div class="titlebar">
+                <div class="titlebar-drag"></div>
+                <div class="titlebar-controls">
+                    <button class="titlebar-btn" id="btnMinimize">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <button class="titlebar-btn" id="btnMaximize">
+                        <i class="fa-solid fa-square"></i>
+                    </button>
+                    <button class="titlebar-btn titlebar-btn-close" id="btnClose">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="content-area" id="contentArea"></div>
+
+            <div class="play-bar">
+                <div class="play-bar-left">
+                    <div class="selected-version" id="selectedVersion">
+                        <i class="fa-solid fa-cube"></i>
+                        <span>1.20.4</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="allocated-ram">
+                        <i class="fa-solid fa-memory"></i>
+                        <span>4 GB</span>
+                    </div>
+                </div>
+                <div class="play-bar-center">
+                    <div class="mini-progress" id="miniProgress">
+                        <div class="mini-progress-fill"></div>
+                    </div>
+                </div>
+                <div class="play-bar-right">
+                    <button class="play-btn-main" id="playBtnMain">
+                        <span class="play-btn-text">PLAY</span>
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/particles.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/console.js"></script>
+    <script src="js/skin-viewer.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/launcher.js"></script>
+    <script src="js/accounts.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/news.js"></script>
+
+    <script>
+        document.getElementById('sidebarUser').addEventListener('click', () => {
+            showAuthModal();
+        });
+    </script>
+</body>
+</html>

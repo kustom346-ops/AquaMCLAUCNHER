@@ -1,0 +1,183 @@
+<div class="page page-settings">
+    <h1 class="page-title">Настройки</h1>
+    <p class="page-subtitle">Настрой лаунчер под себя</p>
+
+    <div class="settings-tabs">
+        <button class="settings-tab active" data-tab="general">
+            <i class="fa-solid fa-sliders"></i> Основные
+        </button>
+        <button class="settings-tab" data-tab="launcher">
+            <i class="fa-solid fa-palette"></i> Лаунчер
+        </button>
+    </div>
+
+    <div class="settings-tab-content active" id="tab-general">
+        <div class="settings-section">
+            <div class="settings-section-title"><i class="fa-brands fa-java"></i> Java</div>
+            <div class="settings-row">
+                <div><div class="settings-label">Версия Java</div><div class="settings-desc">Рекомендуется Java 17</div></div>
+                <select class="settings-select" id="javaVersion"><option>Java 17</option><option>Java 21</option><option>Java 8</option></select>
+            </div>
+            <div class="settings-row">
+                <div><div class="settings-label">Путь к Java</div><div class="settings-desc" id="javaPathLabel">Автоопределение</div></div>
+                <button class="settings-btn settings-btn-outline" id="btnJavaPath"><i class="fa-solid fa-folder-open"></i> Обзор</button>
+            </div>
+            <div class="settings-row">
+                <div><div class="settings-label">Аргументы JVM</div></div>
+                <input type="text" class="settings-input" value="-Xmx4G -Xms2G" id="jvmArgs">
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-section-title"><i class="fa-solid fa-memory"></i> Память</div>
+            <div class="settings-row">
+                <div><div class="settings-label">Выделенная RAM</div></div>
+                <div class="settings-control">
+                    <input type="range" class="ram-slider" id="ramSlider" min="1" max="16" value="4" step="1">
+                    <span class="ram-value" id="ramValue">4 GB</span>
+                </div>
+            </div>
+            <div class="settings-row">
+                <div><div class="settings-label">Минимальная RAM</div></div>
+                <div class="settings-control">
+                    <input type="range" class="ram-slider" id="ramMinSlider" min="1" max="8" value="2" step="1">
+                    <span class="ram-value" id="ramMinValue">2 GB</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-section-title"><i class="fa-solid fa-window-maximize"></i> Окно игры</div>
+            <div class="settings-row">
+                <div><div class="settings-label">Режим окна</div></div>
+                <select class="settings-select" id="windowMode"><option>Полный экран</option><option>Оконный</option></select>
+            </div>
+            <div class="settings-row">
+                <div><div class="settings-label">Показывать FPS</div></div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-section-title"><i class="fa-solid fa-ellipsis"></i> Прочее</div>
+            <div class="settings-row">
+                <div><div class="settings-label">Закрывать лаунчер после запуска</div></div>
+                <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+            </div>
+        </div>
+
+        <button class="settings-save-btn"><i class="fa-solid fa-floppy-disk"></i> Сохранить</button>
+    </div>
+
+    <div class="settings-tab-content" id="tab-launcher">
+        <div class="settings-section">
+            <div class="settings-section-title"><i class="fa-solid fa-moon"></i> Тема</div>
+            <div class="theme-grid">
+                <div class="theme-card active" data-theme="purple-dark">
+                    <div class="theme-preview theme-purple-dark"><div class="theme-preview-bar"></div><div class="theme-preview-sidebar"></div><div class="theme-preview-content"></div></div>
+                    <span class="theme-name">Фиолетовая</span><span class="theme-badge">Активна</span>
+                </div>
+                <div class="theme-card" data-theme="pure-black">
+                    <div class="theme-preview theme-pure-black"><div class="theme-preview-bar"></div><div class="theme-preview-sidebar"></div><div class="theme-preview-content"></div></div>
+                    <span class="theme-name">Чёрная</span>
+                </div>
+                <div class="theme-card" data-theme="midnight-blue">
+                    <div class="theme-preview theme-midnight-blue"><div class="theme-preview-bar"></div><div class="theme-preview-sidebar"></div><div class="theme-preview-content"></div></div>
+                    <span class="theme-name">Синяя</span>
+                </div>
+                <div class="theme-card" data-theme="dark-red">
+                    <div class="theme-preview theme-dark-red"><div class="theme-preview-bar"></div><div class="theme-preview-sidebar"></div><div class="theme-preview-content"></div></div>
+                    <span class="theme-name">Красная</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-section-title"><i class="fa-solid fa-droplet"></i> Акцентный цвет</div>
+            <div class="accent-colors-row">
+                <div class="accent-color active" data-color="#a855f7" style="background:#a855f7"><i class="fa-solid fa-check"></i></div>
+                <div class="accent-color" data-color="#3b82f6" style="background:#3b82f6"></div>
+                <div class="accent-color" data-color="#ec4899" style="background:#ec4899"></div>
+                <div class="accent-color" data-color="#22c55e" style="background:#22c55e"></div>
+                <div class="accent-color" data-color="#f59e0b" style="background:#f59e0b"></div>
+                <div class="accent-color" data-color="#ef4444" style="background:#ef4444"></div>
+                <div class="accent-color" data-color="#06b6d4" style="background:#06b6d4"></div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-section-title"><i class="fa-solid fa-film"></i> Анимации</div>
+            <div class="settings-row">
+                <div><div class="settings-label">Фоновые частицы</div></div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="settings-row">
+                <div><div class="settings-label">Пульсация PLAY</div></div>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+        </div>
+
+        <button class="settings-save-btn"><i class="fa-solid fa-floppy-disk"></i> Сохранить стиль</button>
+    </div>
+</div>
+
+<script>
+(function() {
+    // Табы
+    var tabs = document.querySelectorAll('.settings-tab');
+    var contents = document.querySelectorAll('.settings-tab-content');
+
+    tabs.forEach(function(tab) {
+        tab.onclick = function() {
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            contents.forEach(function(c) { c.classList.remove('active'); });
+            tab.classList.add('active');
+            document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+        };
+    });
+
+    // RAM слайдеры
+    var ramSlider = document.getElementById('ramSlider');
+    var ramValue = document.getElementById('ramValue');
+    if (ramSlider) {
+        ramSlider.oninput = function() {
+            ramValue.textContent = ramSlider.value + ' GB';
+            document.querySelector('.allocated-ram span').textContent = ramSlider.value + ' GB';
+        };
+    }
+
+    // Темы
+    document.querySelectorAll('.theme-card').forEach(function(card) {
+        card.onclick = function() {
+            document.querySelectorAll('.theme-card').forEach(function(c) { c.classList.remove('active'); });
+            card.classList.add('active');
+            document.body.setAttribute('data-theme', card.dataset.theme);
+        };
+    });
+
+    // Акцентные цвета
+    document.querySelectorAll('.accent-color').forEach(function(color) {
+        color.onclick = function() {
+            document.querySelectorAll('.accent-color').forEach(function(c) { c.classList.remove('active'); });
+            color.classList.add('active');
+            color.innerHTML = '<i class="fa-solid fa-check"></i>';
+            document.documentElement.style.setProperty('--accent', color.dataset.color);
+        };
+    });
+
+    // Сохранить
+    document.querySelectorAll('.settings-save-btn').forEach(function(btn) {
+        btn.onclick = function() {
+            var orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Сохранено!';
+            btn.style.background = 'rgba(34,197,94,0.2)';
+            btn.style.color = '#4ade80';
+            setTimeout(function() {
+                btn.innerHTML = orig;
+                btn.style.background = '';
+                btn.style.color = '';
+            }, 2000);
+        };
+    });
+})();
+</script>

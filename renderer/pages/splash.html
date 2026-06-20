@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaMC Splash</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-app-region: drag;
+        }
+
+        /* Само окно сплеша */
+        .splash-box {
+            position: relative;
+            width: 360px;
+            padding: 55px 40px 45px;
+            background: rgba(8, 4, 16, 0.95);
+            border: 1px solid rgba(120, 40, 200, 0.4);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow:
+                0 0 100px rgba(168, 85, 247, 0.3),
+                0 0 200px rgba(139, 92, 246, 0.15),
+                0 30px 60px rgba(0, 0, 0, 0.7);
+            -webkit-app-region: no-drag;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .splash-box.fade-out {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        /* Вращающиеся кольца */
+        .ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1.5px solid rgba(168, 85, 247, 0.2);
+            pointer-events: none;
+        }
+
+        .ring-1 {
+            width: 130px;
+            height: 130px;
+            animation: spin 4s linear infinite;
+        }
+
+        .ring-2 {
+            width: 180px;
+            height: 180px;
+            border-color: rgba(139, 92, 246, 0.12);
+            animation: spin 6s linear infinite reverse;
+        }
+
+        .ring-3 {
+            width: 230px;
+            height: 230px;
+            border-color: rgba(168, 85, 247, 0.06);
+            animation: spin 8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Иконка */
+        .icon-wrap {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            z-index: 2;
+        }
+
+        .glow-circle {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.8), transparent);
+            border-radius: 50%;
+            animation: pulse-glow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.6); opacity: 1; }
+        }
+
+        .drip-icon {
+            font-size: 36px;
+            color: #c084fc;
+            position: relative;
+            z-index: 3;
+            filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.9));
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-7px); }
+        }
+
+        /* Логотип */
+        .logo {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            z-index: 2;
+            margin-bottom: 2px;
+        }
+
+        .logo-aqua {
+            background: linear-gradient(135deg, #c084fc, #a855f7, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.5));
+        }
+
+        .logo-mc {
+            color: #e8e4f0;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        .subtitle {
+            font-size: 10px;
+            color: #8a80a8;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            z-index: 2;
+        }
+
+        /* Полоска загрузки */
+        .loader-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+            z-index: 2;
+        }
+
+        .loader-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #7c3aed, #a855f7, #c084fc);
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+        }
+
+        .loading-text {
+            font-size: 11px;
+            color: #5a5478;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="splash-box" id="splashBox">
+        <!-- Кольца -->
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <div class="ring ring-3"></div>
+
+        <!-- Иконка -->
+        <div class="icon-wrap">
+            <div class="glow-circle"></div>
+            <i class="fa-solid fa-droplet drip-icon"></i>
+        </div>
+
+        <!-- Лого -->
+        <div class="logo">
+            <span class="logo-aqua">Aqua</span><span class="logo-mc">MC</span>
+        </div>
+        <p class="subtitle">Launcher</p>
+
+        <!-- Загрузка -->
+        <div class="loader-bar">
+            <div class="loader-fill" id="loaderFill"></div>
+        </div>
+        <p class="loading-text" id="loadingText">Загрузка...</p>
+    </div>
+
+    <script>
+        const splashBox = document.getElementById('splashBox');
+        const loaderFill = document.getElementById('loaderFill');
+        const loadingText = document.getElementById('loadingText');
+        const TOTAL_DURATION = 2800;
+
+        // Анимация полоски
+        const startTime = Date.now();
+
+        function updateLoader() {
+            const elapsed = Date.now() - startTime;
+            let progress = Math.min((elapsed / TOTAL_DURATION) * 100, 100);
+
+            // Замедление к концу
+            if (progress > 85) {
+                progress = 85 + (progress - 85) * 0.4;
+            }
+
+            loaderFill.style.width = Math.min(progress, 100) + '%';
+
+            if (elapsed < TOTAL_DURATION) {
+                requestAnimationFrame(updateLoader);
+            } else {
+                loaderFill.style.width = '100%';
+                loadingText.textContent = 'Готово';
+                loadingText.style.color = '#4ade80';
+            }
+        }
+
+        updateLoader();
+
+        // Сообщаем main процессу что сплеш готов
+        window.electronAPI.splashReady();
+
+        // Слушаем сигнал fadeOut
+        window.electronAPI.onSplashFadeOut(() => {
+            splashBox.classList.add('fade-out');
+        });
+    </script>
+</body>
+</html>

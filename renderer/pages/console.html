@@ -1,0 +1,52 @@
+<div class="page">
+    <h1 class="page-title">Консоль</h1>
+    <p class="page-subtitle">Логи лаунчера и выполнение команд</p>
+    
+    <div class="console-container" id="consoleOutput"></div>
+    
+    <div class="console-input-row">
+        <input type="text" class="console-input" id="consoleInput" placeholder="Введите команду (help для списка)...">
+        <button class="console-btn" id="consoleSendBtn">Выполнить</button>
+        <button class="console-btn console-clear-btn" id="consoleClearBtn">
+            <i class="fa-solid fa-eraser"></i> Очистить
+        </button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    launcherConsole.init('consoleOutput');
+    
+    // Тестовые логи при первом открытии
+    if (!window._consoleInitialized) {
+        window._consoleInitialized = true;
+        
+        launcherConsole.info('AquaMC Launcher v2.4.1 запущен');
+        launcherConsole.info('Проверка обновлений...');
+        launcherConsole.success('Обновлений нет, лаунчер актуален');
+        launcherConsole.warn('Сервер недоступен (сезон: восстановление)');
+        launcherConsole.info('Java 17 обнаружена: C:/Program Files/Java/jdk-17');
+        launcherConsole.info('Выделено RAM: 4 GB');
+        launcherConsole.debug('Загружены темы: purple-dark, pure-black, midnight-blue, dark-red');
+    }
+    
+    document.getElementById('consoleSendBtn').addEventListener('click', () => {
+        const input = document.getElementById('consoleInput');
+        const cmd = input.value.trim();
+        if (cmd) {
+            launcherConsole.executeCommand(cmd);
+            input.value = '';
+        }
+    });
+
+    document.getElementById('consoleClearBtn').addEventListener('click', () => {
+        launcherConsole.clear();
+    });
+
+    document.getElementById('consoleInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            document.getElementById('consoleSendBtn').click();
+        }
+    });
+});
+</script>
